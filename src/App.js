@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react"
 import Hello from "./components/Hello"
 import Login from "./components/Login"
+import Todos from "./components/Todos"
 import Weather from "./components/Weather"
+import Quotes from "./components/Quotes"
 
 const App = () => {
   const [userName, setUserName] = useState(null);
+  
   const handleLogin = (data)=>{
     localStorage.setItem("USER_NAME",data);
     setUserName(data);
   }
   const handleLogout = ()=>{
-    localStorage.removeItem("USER_NAME");
+    // localStorage.removeItem("USER_NAME");
+    localStorage.clear();
     setUserName('');
+    //전체 페이지 새로고침
+    window.location.reload();
   }
   useEffect(()=>{
     //로컬 스토리지에 userName이 있는지 체크
@@ -23,8 +29,11 @@ const App = () => {
   return (
     <div id="app">
       {
-        userName ? <Hello user={userName} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />
+        userName ? 
+        <Hello user={userName} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />
       }
+      <Quotes />
+      <Todos />
       <Weather />
     </div>
   )
