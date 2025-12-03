@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
+import "./styles/app.css";
 import Hello from "./components/Hello"
 import Login from "./components/Login"
 import Todos from "./components/Todos"
 import Weather from "./components/Weather"
 import Quotes from "./components/Quotes"
+import Clock from "./components/Clock";
 
 const App = () => {
   const [userName, setUserName] = useState(null);
@@ -32,6 +34,7 @@ const App = () => {
         userName ? 
         <Hello user={userName} onLogout={handleLogout} /> : <Login onLogin={handleLogin} />
       }
+      <Clock />
       <Quotes />
       <Todos />
       <Weather />

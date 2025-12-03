@@ -1,6 +1,6 @@
 const Hello = ({ user, onLogout }) => {
   return (
-    <div>
+    <div className="hello-user">
       <p>{user}님, 안녕하세요.</p>
       <button onClick={onLogout}>로그아웃</button>
     </div>
