@@ -42,7 +42,7 @@ const Weather = () => {
       }, (err)=>{setError('위치 정보를 가져올 수 없습니다.'+ err.message);}, options);
     } else {
       /* 위치정보 사용 불가능 */
-      setError("이 브라우저에서는 위치 정보 사용이 불가능합니다");
+      setError("이 브라우저에서는 위치 정보 사용이 불가능합니다.");
     }
   }, []);
   return (
@@ -52,16 +52,16 @@ const Weather = () => {
       {!weather && <p>위치 정보를 기다리는 중...</p>}
 
       {weather && (
-        <>
-          <h2>현재 위치 기준 날씨</h2>
-          <p>도시 : {weather.name}</p>
-          <p>기온 : {weather.main.temp}℃</p>
-          <p>체감온도 : {weather.main.feels_like}℃</p>
-          <p>날씨 설명 : {weather.weather[0].description}</p>
+        <div className="weather-box">
+          {/* <h2>현재 위치 기준 날씨</h2> */}
+          <p>{weather.name}</p>
+          <p>{weather.main.temp}℃</p>
+          {/* <p>체감온도 : {weather.main.feels_like}℃</p> */}
+          <p>{weather.weather[0].description}</p>
           {iconUrl && (
             <img src={iconUrl} alt={weather.weather[0].description} />
           )}
-        </>
+        </div>
       )}
     </div>
   );

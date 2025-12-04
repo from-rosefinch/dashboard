@@ -44,7 +44,7 @@ ol,
 ul {
   list-style: none;
 }
-button{
+button {
   all: unset;
 }
 #root {
@@ -57,34 +57,78 @@ button{
 }
 
 body {
-  background-color: rgba(0, 0, 0, 0.3);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../images/background.jpg);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  
+  
+  
   overflow: hidden;
-  P{
+  P {
     font-weight: bolder;
   }
 }
 
-.hello-user{
-  p{font-size: 2rem;}
-  button{
+/* background 시간대별 변경 */
+
+/* 배경은 페이지 전체에 깔리지만 다른 요소를 밀어내지 않음 */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -10; /* 매우 뒤로 보내기 */
+  transition: background-image 1s ease;
+}
+
+/* 시간대별 배경 */
+.bg-morning {
+  /* background: linear-gradient(#ffd9a5, #fff7e6); */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../images/background-2.jpg);
+}
+.bg-afternoon {
+  /* background: linear-gradient(#87c8ff, #ffffff); */background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../images/background.jpg);
+}
+.bg-evening {
+  /* background: linear-gradient(#ffb27a, #5a3d2b); */background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../images/background-3.jpg);
+}
+.bg-night {
+  /* background: linear-gradient(#1a1a3d, #000000); */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(../images/background-4.jpg);
+}
+
+/* 인삿말 텍스트 스타일 */
+.greeting-text {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  font-size: 48px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  /* text-shadow: 0 0 10px rgba(0,0,0,0.4); */
+  pointer-events: none;
+  z-index: 10;
+}
+
+
+
+.hello-user {
+  p {
+    font-size: 2rem;
+  }
+  button {
     font-size: 1.5rem;
     border: 1px solid #fff;
     border-radius: 2rem;
+    cursor: pointer;
   }
 }
-.realtime-clock{
-  font-family: "Press Start 2P", system-ui;
+.clock {
+  font-family: "Press Start 2P";
   font-size: 4.5rem;
 }
 
-#todo-list{
-  /* ===========================
-    Scroll Wrapper (전체 감싸는 두루마리)
-=========================== */
 #todo-list {
   width: 320px;
   margin: 40px auto;
@@ -93,13 +137,9 @@ body {
   background: linear-gradient(#f5e7c6, #f0d8a8);
   border-left: 4px solid #4a2e1a;
   border-right: 4px solid #4a2e1a;
-
-  box-shadow:
-    inset 0 0 0 4px #e8d8b4,
-    inset 0 0 15px rgba(0,0,0,0.25);
-
+  box-shadow: inset 0 0 0 4px #e8d8b4, inset 0 0 15px rgba(0, 0, 0, 0.25);
+  font-weight: bold;
   image-rendering: pixelated;
-  font-family: 'Press Start 2P', monospace;
   padding: 20px 20px 30px 20px;
   position: relative;
 }
@@ -162,6 +202,9 @@ body {
 /* ===========================
         Pixel Checkbox
 =========================== */
+/* ==========================
+   체크박스 기본
+=========================== */
 #todo-list input[type="checkbox"] {
   width: 16px;
   height: 16px;
@@ -170,16 +213,90 @@ body {
   background: #fff8e6;
   border: 3px solid #4a2e1a;
   cursor: pointer;
+  position: relative;
+  image-rendering: pixelated;
+  border-radius: 3px;
+}
+
+/* ==========================
+   체크되었을 때 배경 살짝 변경
+=========================== */
+#todo-list input[type="checkbox"]:checked {
+  background: #ffe3ae;
+  border-color: #6b4429;
+}
+
+/* ==========================
+   중앙 픽셀 스파클
+=========================== */
+#todo-list input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
   image-rendering: pixelated;
 }
 
-#todo-list input[type="checkbox"]:checked {
-  background: repeating-linear-gradient(
-    45deg,
-    #8b4e2d 0px, #8b4e2d 3px,
-    #d8b38a 3px, #d8b38a 6px
-  );
+/* 체크되면 스파클 발동 */
+#todo-list input[type="checkbox"]:checked::after {
+  animation: pixelSpark 0.35s steps(1) forwards;
 }
+
+/* 픽셀 스파클 애니메이션 (도트 팡!) */
+@keyframes pixelSpark {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(3); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(4); }
+}
+
+/* ==========================
+   별 파편 6개
+=========================== */
+#todo-list input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: shards 0.45s ease-out;
+  opacity: 0;
+}
+
+#todo-list input[type="checkbox"]:checked::before {
+  opacity: 1;
+}
+
+/* 파편은 픽셀 6개가 각각 다른 방향으로 튀는 것처럼 보이게 */
+@keyframes shards {
+  0% { box-shadow:
+        0 0 #fff,
+        0 0 #fff,
+        0 0 #fff,
+        0 0 #fff,
+        0 0 #fff,
+        0 0 #fff; }
+
+  50% { box-shadow: 
+        -8px -4px #fff,
+        8px -2px #fff,
+        10px 4px #fff,
+        -10px 6px #fff,
+        3px -8px #fff,
+        -4px 8px #fff; }
+
+  100% { box-shadow:
+        -12px -6px transparent,
+        12px -3px transparent,
+        15px 6px transparent,
+        -15px 9px transparent,
+        5px -12px transparent,
+        -6px 12px transparent; }
+}
+
+
 
 /* ===========================
          Delete Button (X)
@@ -188,7 +305,7 @@ body {
   margin-left: auto;
   font-size: 12px;
   padding: 4px 6px;
-
+  border-radius: 4px;
   background: #7b5a36;
   color: #fff8e6;
   border: 3px solid #4a2e1a;
@@ -198,6 +315,4 @@ body {
 
 #todo-list button:hover {
   background: #9c7443;
-}
-
 }

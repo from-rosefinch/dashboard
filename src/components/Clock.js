@@ -18,6 +18,11 @@ const Clock = () => {
     let minutes = date.getMinutes();
     let seconds = date.getSeconds();
 
+    if( hours === 0 ){
+      hours = 12;
+    }else if( hours > 12){
+      hours -= 12;
+    }
     hours = String(hours).padStart(2, '0');
     minutes = String(minutes).padStart(2, '0');
     seconds = String(seconds).padStart(2, '0');
@@ -26,7 +31,7 @@ const Clock = () => {
   };
 
   return (
-    <div className="realtime-clock">
+    <div className="clock">
       {formatTime(currentTime)}
     </div>
   );

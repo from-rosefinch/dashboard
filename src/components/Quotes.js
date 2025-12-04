@@ -6,8 +6,8 @@ const Quotes = () => {
     const data = quoteData[index];
   return (
     <div id='quote-page'>
-        <p>{data.verse}</p>
-        <small>-{data.bible}</small>
+        <p>" {data.line} "</p>
+        <small>-{data.movie}</small>
     </div>
   )
 }

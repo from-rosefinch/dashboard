@@ -12,10 +12,10 @@ const TodoList = ({todos,onDel,onToggle}) => {
                     />
                     <span style={{
                         textDecoration : list.done ? "line-through" : "none",
-                        textDecorationColor : list.done ? "rgba(0,0,255,0.2)" : "none",
-                        textDecorationThickness : list.done ? "16px" : "none"
+                        textDecorationColor : list.done ? "rgba(134, 119, 90, 1)" : "none",
+                        textDecorationThickness : list.done ? "2px" : "none"
                     }}>{list.todo}</span>
-                    <button onClick={()=>{onDel(list.id)}}>X</button>
+                    <button onClick={()=>{onDel(list.id)}}>x</button>
                 </li>)
             })
         }
